@@ -1,0 +1,398 @@
+{
+  "name": "Lead Qualification Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const lead = $json;\n\nif (!lead.full_name || !lead.email || !lead.budget || !lead.interest_level) {\n  throw new Error(\"Missing one or more required fields.\");\n}\n\nconst budget = parseInt(lead.budget);\nconst interest = lead.interest_level.toLowerCase();\n\nlet score = \"Cold\";\n\nif (budget > 5000 && interest === \"high\") {\n  score = \"Hot\";\n} else if (budget > 2000 || interest === \"medium\") {\n  score = \"Warm\";\n}\n\nreturn [{\n  json: {\n    ...lead,\n    score: score\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        176,
+        -240
+      ],
+      "id": "8e891326-ccbf-40a6-8a43-083154605e9d",
+      "name": "Code",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1eSksRu1JCj4n9VqAvaH2_9otMNL0O34rYRZpBDJeGEo",
+          "mode": "list",
+          "cachedResultName": "Leads Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eSksRu1JCj4n9VqAvaH2_9otMNL0O34rYRZpBDJeGEo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eSksRu1JCj4n9VqAvaH2_9otMNL0O34rYRZpBDJeGEo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "full_name": "full_name",
+            "email": "email",
+            "phone": "phone",
+            "company_size": "company_size",
+            "budget": "budget",
+            "interest_level": "interest_level",
+            "score": "score"
+          },
+          "matchingColumns": [
+            "full_name"
+          ],
+          "schema": [
+            {
+              "id": "full_name",
+              "displayName": "full_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "company_size",
+              "displayName": "company_size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "budget",
+              "displayName": "budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "interest_level",
+              "displayName": "interest_level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "score",
+              "displayName": "score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        384,
+        -32
+      ],
+      "id": "517ca93c-6c3c-49fb-9ae4-e51ab4f7b7cb",
+      "name": "Append or update row in sheet",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "9shZ5E9Uuv0nVvu4",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0013a981-4b1f-42f1-a82d-e00a9b25c73a",
+              "name": "full_name",
+              "value": "Jane Doe",
+              "type": "string"
+            },
+            {
+              "id": "3ada75af-b391-409c-aa48-cc0bfa82cf38",
+              "name": "email",
+              "value": "jane@example.com",
+              "type": "string"
+            },
+            {
+              "id": "8db37144-2494-4352-ac33-2bd87d7a501e",
+              "name": "phone",
+              "value": 27821234567,
+              "type": "number"
+            },
+            {
+              "id": "32209842-cb2a-4d61-9cf6-6bbf974fd04b",
+              "name": "company_size",
+              "value": 150,
+              "type": "number"
+            },
+            {
+              "id": "39b85adc-adca-4bcc-ab13-1edaf4cf17d9",
+              "name": "budget",
+              "value": 7500,
+              "type": "number"
+            },
+            {
+              "id": "8ffad277-b863-43e9-9e99-3187a25628e8",
+              "name": "interest_level",
+              "value": "High",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -32,
+        -32
+      ],
+      "id": "781c4a26-ecfa-4ffd-8801-0698f1c2a61c",
+      "name": "Simulate Lead Submission"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0ab895c5-2785-4f7b-bb8d-301839ad5697",
+              "leftValue": "={{$json[\"score\"]}}\n",
+              "rightValue": "'Hot'",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        -240
+      ],
+      "id": "52c8de2b-769c-48ac-9f36-7b4ea0dcf22c",
+      "name": "Is Lead Qualified (Hot)?"
+    },
+    {
+      "parameters": {
+        "fromEmail": "Akonaciko1@gmail.com",
+        "toEmail": "Akonaciko1@gmail.com",
+        "subject": "=🔥 New HOT Lead from {{$json[\"full_name\"]}}",
+        "emailFormat": "text",
+        "text": "=You just received a HOT lead!\n\n👤 Name: {{$json[\"full_name\"]}}\n📧 Email: {{$json[\"email\"]}}\n💰 Budget: £{{$json[\"budget\"]}}\n🎯 Interest Level: {{$json[\"interest_level\"]}}\n\nCheck your Google Sheet for full details.\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        -96
+      ],
+      "id": "201f8887-b406-4c6f-b6ba-1a531176c689",
+      "name": "Notify Team: New Hot Lead",
+      "webhookId": "cbbba36c-4cb7-49d0-846a-d1dce2383e8c",
+      "credentials": {
+        "smtp": {
+          "id": "WhypRPby677ew4Ek",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1088,
+        -304
+      ],
+      "id": "5debb748-c8d6-4864-b40b-4a50d73e40bd",
+      "name": "Delay Before Follow-Up",
+      "webhookId": "f78bb0a6-899b-44cf-b2e5-0e97ef2b8515"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "fromEmail": "Akonaciko1@gmail.com",
+        "toEmail": "Akonaciko1@gmail.com",
+        "subject": "Approval required",
+        "message": "=This is a scheduled follow-up for a HOT lead:\n\n👤 Name: {{$json[\"full_name\"]}}\n💰 Budget: £{{$json[\"budget\"]}}\n\nConsider reaching out if you haven't already.\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1312,
+        -16
+      ],
+      "id": "85fea7da-abec-4085-9c37-47b860ee2b08",
+      "name": " Follow-Up: Lead Nurture",
+      "webhookId": "062a8263-4a24-4c2b-9595-05368c151202",
+      "credentials": {
+        "smtp": {
+          "id": "WhypRPby677ew4Ek",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -304
+      ],
+      "id": "d9038224-197c-4a64-83ec-2abcc6338b85",
+      "name": "Execute workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Is Lead Qualified (Hot)?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simulate Lead Submission": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Lead Qualified (Hot)?": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Notify Team: New Hot Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Team: New Hot Lead": {
+      "main": [
+        [
+          {
+            "node": "Delay Before Follow-Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delay Before Follow-Up": {
+      "main": [
+        [
+          {
+            "node": " Follow-Up: Lead Nurture",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Simulate Lead Submission",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3f9a4989-8ad9-4bb5-a2ec-4a910a49fdc6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4bab3ddd1b82e2208c320b12e1a375932c5d8ea70d2a8de2f30c5017d6304893"
+  },
+  "id": "4wihHu2vnvcnLKBH",
+  "tags": []
+}
