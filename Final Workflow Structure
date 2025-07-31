@@ -1,0 +1,14 @@
+
+[ Set Node (Mock Lead Input) ]
+        ↓
+[ Code Node (Scoring Logic: always sets 'Hot') ]
+        ↓
+[ IF Node (score === 'Hot') ]
+        ├── False → (Do nothing or log to Google Sheet only)
+        └── True →
+              ↓
+        [ Email Node – 🔔 Initial Alert (Hot Lead) ]
+              ↓
+        [ Wait Node – ⏱️ 2-minute delay ]
+              ↓
+        [ Email Node – 🔁 Follow-Up / Approval / Nurture ]
